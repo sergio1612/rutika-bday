@@ -1,0 +1,79 @@
+@theme {
+  --font-serif: "Cormorant Garamond", "Palatino Linotype", Palatino, serif;
+  --font-sans: Outfit, "Segoe UI", sans-serif;
+  --font-script: "Great Vibes", cursive;
+
+  --color-ink: #2a2224;
+  --color-ink-soft: #5e5053;
+  --color-cream: #f7f1ea;
+  --color-cream-2: #f3e6da;
+  --color-paper: #fbf7f1;
+  --color-blush: #edd5cf;
+  --color-rose: #c48984;
+  --color-rose-deep: #8f4e56;
+  --color-wine: #4a2c32;
+  --color-gold: #8a6840;
+  --color-gold-bright: #e7d3b1;
+  --color-gold-soft: #eadcc8;
+  --color-night: #140e10;
+}
+
+@layer base {
+  html {
+    background: #140e10;
+    scroll-behavior: smooth;
+    scrollbar-color: #cbb59a transparent;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100svh;
+    overflow-x: clip;
+    background: #140e10;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #root {
+    min-height: 100svh;
+    overflow-x: clip;
+  }
+
+  button {
+    touch-action: manipulation;
+  }
+
+  ::selection {
+    background: #eadcc8;
+    color: #2a2224;
+  }
+
+  :focus-visible {
+    outline: 2px solid #8a6840;
+    outline-offset: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+.nav-scroll {
+  scrollbar-width: none;
+}
+
+.nav-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.grain {
+  opacity: 0.16;
+  background-image: radial-gradient(rgba(42, 34, 36, 0.22) 0.55px, transparent 0.55px);
+  background-size: 3px 3px;
+  mix-blend-mode: multiply;
+}
