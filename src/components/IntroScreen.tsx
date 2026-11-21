@@ -43,7 +43,7 @@ export function IntroScreen({ onOpen }: { onOpen: () => void }) {
           animate="show"
           custom={1}
         >
-          Hey Mumma
+          Hey Rutu
           <Heart className="h-6 w-6 fill-rose text-rose md:h-7 md:w-7" aria-hidden="true" />
         </motion.h1>
         <motion.div variants={fade} initial="hidden" animate="show" custom={2}>
@@ -54,7 +54,7 @@ export function IntroScreen({ onOpen }: { onOpen: () => void }) {
           >
             Open Your Surprise
           </button>
-          <p className="mt-8 text-[0.68rem] uppercase tracking-[0.32em] text-cream/55">From Babuu</p>
+          <p className="mt-8 text-[0.68rem] uppercase tracking-[0.32em] text-cream/55">From Manav</p>
         </motion.div>
       </div>
     </section>

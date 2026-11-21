@@ -10,7 +10,7 @@ function Envelope({ opening, onOpen }: { opening: boolean; onOpen: () => void })
       type="button"
       onClick={onOpen}
       className="mx-auto block w-full max-w-sm"
-      aria-label="Open the letter from Babuu"
+      aria-label="Open the letter from Manav"
     >
       <span className="relative mx-auto block h-64 w-full">
         <span className="absolute inset-x-5 top-4 z-0 h-36 rounded-sm bg-paper shadow-md" />
@@ -33,10 +33,10 @@ function Envelope({ opening, onOpen }: { opening: boolean; onOpen: () => void })
           animate={{ scale: opening ? 0.6 : 1, opacity: opening ? 0 : 1 }}
           aria-hidden="true"
         >
-          B
+          M
         </motion.span>
       </span>
-      <span className="mt-2 block text-center font-script text-4xl text-rose-deep">For Mumma</span>
+      <span className="mt-2 block text-center font-script text-4xl text-rose-deep">For Rutu</span>
       <span className="mt-2 block text-center text-[0.68rem] uppercase tracking-[0.28em] text-gold">
         Open the letter
       </span>
@@ -61,7 +61,7 @@ export function LoveLetter() {
 
   return (
     <section id="letter" className="scroll-mt-20 px-5 py-24 md:px-8 md:py-32">
-      <SectionHeading eyebrow="A letter from Babuu" title="Something I want you to know..." />
+      <SectionHeading eyebrow="A letter from Manav" title="Something I want you to know..." />
 
       <div className="mx-auto max-w-xl [perspective:1000px]">
         <AnimatePresence mode="wait">
@@ -82,7 +82,7 @@ export function LoveLetter() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
               className="bg-paper px-6 py-10 shadow-[0_24px_70px_rgba(74,44,50,0.1)] ring-1 ring-gold-soft outline-none md:px-12 md:py-14"
-              aria-label="Letter from Babuu"
+              aria-label="Letter from Manav"
             >
               <p className="text-[0.68rem] uppercase tracking-[0.28em] text-gold">{letter.date}</p>
               <p className="mt-6 font-serif text-2xl text-ink">{letter.salutation}</p>

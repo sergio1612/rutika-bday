@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion'
 import { Experience } from './components/Experience'
+import { GiftHunt } from './features/gift-hunt/components/GiftHunt'
 import { IntroScreen } from './components/IntroScreen'
 import { Loader } from './components/Loader'
 import { useMusic } from './hooks/useMusic'
@@ -11,6 +12,7 @@ export default function App() {
   const reduced = useReducedMotion()
   const [loaded, setLoaded] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)
   const [started, setStarted] = useState(false)
+  const [huntOpen, setHuntOpen] = useState(false)
   const finishLoading = useCallback(() => setLoaded(true), [])
   const opening = useRef(false)
 
@@ -30,6 +32,7 @@ export default function App() {
 
   const replay = () => {
     opening.current = false
+    setHuntOpen(false)
     music.reset()
     setStarted(false)
     window.scrollTo(0, 0)
@@ -48,12 +51,28 @@ export default function App() {
               exit={{ opacity: 0 }}
               transition={{ duration: reduced ? 0 : 0.8 }}
             >
-              <Experience
-                onReplay={replay}
-                playing={music.playing}
-                missing={music.missing}
-                onToggleMusic={music.toggle}
-              />
+              {huntOpen ? (
+                <GiftHunt
+                  onBack={() => {
+                    setHuntOpen(false)
+                    window.scrollTo(0, 0)
+                  }}
+                  playing={music.playing}
+                  missing={music.missing}
+                  onToggleMusic={music.toggle}
+                />
+              ) : (
+                <Experience
+                  onReplay={replay}
+                  onOpenGifts={() => {
+                    setHuntOpen(true)
+                    window.scrollTo(0, 0)
+                  }}
+                  playing={music.playing}
+                  missing={music.missing}
+                  onToggleMusic={music.toggle}
+                />
+              )}
             </motion.div>
           ) : (
             <motion.div

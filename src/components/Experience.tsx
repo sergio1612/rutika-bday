@@ -12,11 +12,13 @@ import { Timeline } from './Timeline'
 
 export function Experience({
   onReplay,
+  onOpenGifts,
   playing,
   missing,
   onToggleMusic,
 }: {
   onReplay: () => void
+  onOpenGifts: () => void
   playing: boolean
   missing: boolean
   onToggleMusic: () => void
@@ -32,7 +34,7 @@ export function Experience({
       <Portal>
         <div className="grain pointer-events-none fixed inset-0 z-[1]" aria-hidden="true" />
         <FloatingHearts />
-        <SectionProgress />
+        <SectionProgress onOpenGifts={onOpenGifts} />
         <MusicPlayer playing={playing} missing={missing} onToggle={onToggleMusic} />
         <CursorGlow />
       </Portal>

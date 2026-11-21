@@ -10,7 +10,7 @@ const SECTIONS = [
   { id: 'finale', label: 'Gift' },
 ]
 
-export function SectionProgress() {
+export function SectionProgress({ onOpenGifts }: { onOpenGifts: () => void }) {
   const reduced = useReducedMotion()
   const [progress, setProgress] = useState(0)
   const [active, setActive] = useState(SECTIONS[0].id)
@@ -83,6 +83,13 @@ export function SectionProgress() {
               </button>
             )
           })}
+          <button
+            type="button"
+            onClick={onOpenGifts}
+            className="flex h-9 shrink-0 items-center justify-center rounded-full px-2 text-[0.58rem] uppercase tracking-[0.08em] text-rose-deep transition hover:bg-blush/60 sm:px-3 sm:text-[0.62rem] sm:tracking-[0.14em]"
+          >
+            Gifts
+          </button>
         </div>
       </nav>
     </>
