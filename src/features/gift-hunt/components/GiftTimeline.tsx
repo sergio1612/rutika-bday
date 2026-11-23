@@ -6,17 +6,13 @@ export function GiftTimeline({
   views,
   now,
   attemptsByPinId,
-  revealedHintIds,
   onVerify,
-  onRevealHint,
   onFound,
 }: {
   views: HuntGiftView[]
   now: number
   attemptsByPinId: Record<string, number>
-  revealedHintIds: string[]
   onVerify: (giftId: string, pin: string) => PinOutcome
-  onRevealHint: (hintId: string) => void
   onFound: (giftId: string) => void
 }) {
   return (
@@ -34,9 +30,7 @@ export function GiftTimeline({
               view={view}
               now={now}
               attemptsUsed={view.gift.pinConfig ? (attemptsByPinId[view.gift.pinConfig.pinId] ?? 0) : 0}
-              revealedHintIds={revealedHintIds}
               onVerify={(pin) => onVerify(view.gift.giftId, pin)}
-              onRevealHint={onRevealHint}
               onFound={() => onFound(view.gift.giftId)}
             />
           </div>

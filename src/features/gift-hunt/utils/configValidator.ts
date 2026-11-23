@@ -21,6 +21,7 @@ export function validateGiftConfig(config: GiftConfig, letter: HuntLetter): stri
       gift.eventId,
       gift.pinConfig?.pinId,
       gift.completionMessage.messageId,
+      gift.physicalCard?.cardId,
       ...gift.clues.flatMap((clue) => [clue.clueId, ...clue.hints.map((hint) => hint.hintId)]),
     ]),
     ...letter.sections.map((section) => section.letterSectionId),
@@ -45,13 +46,26 @@ export function validateGiftConfig(config: GiftConfig, letter: HuntLetter): stri
     if (gift.pinConfig && gift.pinConfig.maxAttempts < 1) {
       warnings.push(`"${gift.pinConfig.pinId}" needs at least one attempt.`)
     }
-    if (gift.clues.length === 0) warnings.push(`"${gift.giftId}" has no clues.`)
+    if (gift.clues.length === 0 && !gift.physicalCard) {
+      warnings.push(`"${gift.giftId}" has no clues.`)
+    }
+    if (gift.physicalCard?.nextGiftId && !knownGifts.has(gift.physicalCard.nextGiftId)) {
+      warnings.push(`"${gift.giftId}" has a note pointing at missing gift "${gift.physicalCard.nextGiftId}".`)
+    }
+    if (gift.physicalCard?.nextGiftId === gift.giftId) {
+      warnings.push(`"${gift.giftId}" cannot point its note at itself.`)
+    }
     if (gift.dependsOnGiftId && !knownGifts.has(gift.dependsOnGiftId)) {
       warnings.push(`"${gift.giftId}" depends on missing gift "${gift.dependsOnGiftId}".`)
     }
     if (gift.dependsOnGiftId === gift.giftId) {
       warnings.push(`"${gift.giftId}" cannot depend on itself.`)
     }
+  }
+
+  const pinValues = gifts.flatMap((gift) => (gift.pinConfig ? [gift.pinConfig.value] : []))
+  if (duplicates(pinValues).length > 0) {
+    warnings.push('Two gifts share a PIN. Each gift needs its own code.')
   }
 
   const enabledOrders = gifts.filter((gift) => gift.enabled).map((gift) => gift.order)

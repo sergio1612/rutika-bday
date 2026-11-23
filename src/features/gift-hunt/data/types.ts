@@ -21,6 +21,13 @@ export type CompletionMessage = {
   text: string
 }
 
+/** The note tied to this gift. It points toward the next place and is not shown before the gift is found. */
+export type PhysicalCard = {
+  cardId: string
+  verse: string
+  nextGiftId: string | null
+}
+
 export type GiftDefinition = {
   giftId: string
   eventId: string
@@ -40,6 +47,7 @@ export type GiftDefinition = {
   clues: GiftClue[]
   /** Where you will hide it. She never sees this field. The clue is what she reads. */
   location: string
+  physicalCard: PhysicalCard | null
   completionMessage: CompletionMessage
   image: string | null
 }
@@ -47,6 +55,7 @@ export type GiftDefinition = {
 export type GiftHuntIntro = {
   title: string
   subtitle: string
+  waiting: string
   cta: string
 }
 

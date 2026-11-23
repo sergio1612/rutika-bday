@@ -10,20 +10,16 @@ export function GiftCard({
   view,
   now,
   attemptsUsed,
-  revealedHintIds,
   onVerify,
-  onRevealHint,
   onFound,
 }: {
   view: HuntGiftView
   now: number
   attemptsUsed: number
-  revealedHintIds: string[]
   onVerify: (pin: string) => PinOutcome
-  onRevealHint: (hintId: string) => void
   onFound: () => void
 }) {
-  const { gift, status, lockReason } = view
+  const { gift, status, lockReason, isOpeningClue } = view
   const [reread, setReread] = useState(false)
   const opens = formatInKolkata(parseSchedule(gift.unlockAt))
 
@@ -55,16 +51,33 @@ export function GiftCard({
         {gift.image ? (
           <img src={gift.image} alt="" className="mx-auto mt-4 max-h-48 rounded-2xl object-cover" />
         ) : null}
-        <p className="mt-4 font-serif text-xl leading-relaxed text-ink/90">{gift.completionMessage.text}</p>
-        <button
-          type="button"
-          onClick={() => setReread((open) => !open)}
-          className="mt-4 text-[0.68rem] uppercase tracking-[0.18em] text-rose-deep"
-          aria-expanded={reread}
-        >
-          {reread ? 'Hide the clue' : 'Read the clue again'}
-        </button>
-        {reread ? <Clues gift={gift} revealedHintIds={revealedHintIds} onRevealHint={onRevealHint} /> : null}
+        {gift.completionMessage.text ? (
+          <p className="mt-4 font-serif text-xl leading-relaxed text-ink/90">{gift.completionMessage.text}</p>
+        ) : null}
+        {gift.physicalCard ? (
+          <button
+            type="button"
+            onClick={() => setReread((open) => !open)}
+            className="mt-4 text-[0.68rem] uppercase tracking-[0.18em] text-rose-deep"
+            aria-expanded={reread}
+          >
+            {reread ? 'Hide the note' : 'Read the note again'}
+          </button>
+        ) : null}
+        {reread && gift.physicalCard ? (
+          <p className="mt-4 whitespace-pre-line text-left font-serif text-lg leading-relaxed text-ink">
+            {gift.physicalCard.verse}
+          </p>
+        ) : null}
+      </article>
+    )
+  }
+
+  if (isOpeningClue) {
+    return (
+      <article className="rounded-3xl bg-paper/80 px-5 py-6 text-center shadow-sm ring-1 ring-gold/15">
+        <h3 className="font-serif text-2xl text-ink">The first surprise</h3>
+        <p className="mt-2 text-sm font-light text-ink-soft">Its code is entered in Gift, before this hunt begins.</p>
       </article>
     )
   }
@@ -72,8 +85,14 @@ export function GiftCard({
   return (
     <article className="rounded-3xl bg-gradient-to-b from-paper to-blush/40 px-5 py-6 text-center shadow-md ring-1 ring-rose/20">
       <p className="text-[0.68rem] uppercase tracking-[0.22em] text-rose-deep">This one is ready</p>
-      <h3 className="mt-2 font-serif text-3xl italic text-ink">Follow the clue</h3>
-      <Clues gift={gift} revealedHintIds={revealedHintIds} onRevealHint={onRevealHint} />
+      <h3 className="mt-2 font-serif text-3xl italic text-ink">
+        {gift.requiresPin ? 'The code with this gift' : 'A note, not a gift'}
+      </h3>
+      <p className="mt-3 text-sm font-light leading-relaxed text-ink-soft">
+        {gift.requiresPin
+          ? 'Enter the four digits you found with it.'
+          : 'There is no gift here. Follow the card you already found.'}
+      </p>
       {gift.requiresPin && gift.pinConfig ? (
         <PinVerification pinConfig={gift.pinConfig} attemptsUsed={attemptsUsed} onVerify={onVerify} />
       ) : (
@@ -82,47 +101,9 @@ export function GiftCard({
           onClick={onFound}
           className="mt-6 rounded-full bg-wine px-6 py-3 text-[0.68rem] uppercase tracking-[0.18em] text-cream"
         >
-          I found it
+          I found the note
         </button>
       )}
     </article>
-  )
-}
-
-function Clues({
-  gift,
-  revealedHintIds,
-  onRevealHint,
-}: {
-  gift: HuntGiftView['gift']
-  revealedHintIds: string[]
-  onRevealHint: (hintId: string) => void
-}) {
-  return (
-    <div className="mt-4 space-y-4 text-left">
-      {gift.clues.map((clue) => (
-        <div key={clue.clueId}>
-          <p className="font-serif text-lg text-ink">{clue.title}</p>
-          <p className="mt-1 font-light leading-relaxed text-ink-soft">{clue.description}</p>
-          {clue.hints.map((hint) => {
-            const shown = revealedHintIds.includes(hint.hintId)
-            return shown ? (
-              <p key={hint.hintId} className="mt-3 rounded-2xl bg-cream/80 px-4 py-3 text-sm text-ink">
-                {hint.text}
-              </p>
-            ) : (
-              <button
-                key={hint.hintId}
-                type="button"
-                onClick={() => onRevealHint(hint.hintId)}
-                className="mt-3 text-[0.68rem] uppercase tracking-[0.16em] text-gold"
-              >
-                A little nudge
-              </button>
-            )
-          })}
-        </div>
-      ))}
-    </div>
   )
 }

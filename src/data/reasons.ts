@@ -1,135 +1,209 @@
 /**
- * 24 reasons. Replace every `note` with your own words before Rutu reads this.
- * Labels are only prompts — rename any that are not true.
- * Do not leave the placeholder sentences in the site you give her.
+ * The 24 reasons. Edit a title or description here; keep reasonId stable.
  */
 export type Reason = {
-  id: number
-  label: string
-  note: string
+  reasonId: string
+  number: number
+  emoji: string
+  title: string
+  description: string
+  special?: boolean
 }
 
 export const reasonsIntro = 'Twenty-four notes, waiting to be opened.'
 
 export const reasons: Reason[] = [
   {
-    id: 1,
-    label: 'Your smile',
-    note: 'Write what her smile does to you.',
+    reasonId: 'reason-001',
+    number: 1,
+    emoji: '🥹',
+    title: 'The Way You Care',
+    description:
+      'Tane khabar pan nathi padti pan tu nani nani vastu ma ketli care kare che. And honestly, mane tari aa vaat bau game che.',
   },
   {
-    id: 2,
-    label: 'Your presence',
-    note: 'Write how it feels when she is simply there.',
+    reasonId: 'reason-002',
+    number: 2,
+    emoji: '😊',
+    title: 'Your Smile',
+    description:
+      'Taru smile jovu e honestly mara favourite things mathi ek che. Tane hasta jovu e j alag happiness che.',
   },
   {
-    id: 3,
-    label: 'A little habit',
-    note: 'Write a real habit of hers — only one you have actually noticed.',
+    reasonId: 'reason-003',
+    number: 3,
+    emoji: '🫶',
+    title: 'You Understand Me',
+    description:
+      'Badhu explain karvu na pade ane tu samji jaay, e feeling j alag che. Sometimes words ni pan jarur nathi padti.',
   },
   {
-    id: 4,
-    label: 'Ordinary days',
-    note: 'Write how she makes an ordinary day feel special.',
+    reasonId: 'reason-004',
+    number: 4,
+    emoji: '🌷',
+    title: 'Your Maturity',
+    description:
+      'Tu situations ne je rite handle kare che, e mane genuinely impress kare che. Ghani vaar tari pase thi mane pan ghanu shikhva male che.',
   },
   {
-    id: 5,
-    label: 'How you make me feel',
-    note: 'Write the feeling she gives you, in your words.',
+    reasonId: 'reason-005',
+    number: 5,
+    emoji: '🧠',
+    title: 'Your Practical Side',
+    description:
+      'Tu emotional pan che, pan jarur pade tyare practical rite vichari pan shake che. I really admire that about you.',
   },
   {
-    id: 6,
-    label: 'Your laugh',
-    note: 'Write about her laugh.',
+    reasonId: 'reason-006',
+    number: 6,
+    emoji: '🤍',
+    title: 'Your Adjustments',
+    description:
+      'Apda plans mate tu je rite adjust kare che, eni hu khub value karu chu. Maybe hu darek vaar express na karto hou, but I notice it.',
   },
   {
-    id: 7,
-    label: 'The way you care',
-    note: 'Write something true about how she shows care.',
+    reasonId: 'reason-007',
+    number: 7,
+    emoji: '✨',
+    title: 'Your Determination',
+    description:
+      'Tu je nakki kare che ena mate try karvanu easily chhodti nathi. I love seeing you work towards what you want.',
   },
   {
-    id: 8,
-    label: 'A shared memory',
-    note: 'Write a memory that belongs to the two of you.',
+    reasonId: 'reason-008',
+    number: 8,
+    emoji: '😂',
+    title: 'Our Silly Conversations',
+    description:
+      'Apdi random ane silly vaato pan mara day no best part bani jaay che. Koi topic na hoy to pan apde vaat kari j laiye.',
   },
   {
-    id: 9,
-    label: 'Your voice',
-    note: 'Write what her voice means to you.',
+    reasonId: 'reason-009',
+    number: 9,
+    emoji: '🏡',
+    title: 'Being Yourself',
+    description:
+      "Tari sathe mare koi pretend karvani jarur nathi. I can just be me, and that's something I never want to take for granted.",
   },
   {
-    id: 10,
-    label: 'Quiet moments',
-    note: 'Write about a quiet moment you want her to remember.',
+    reasonId: 'reason-010',
+    number: 10,
+    emoji: '🙈',
+    title: 'Your Little Expressions',
+    description:
+      'Tara face par na expressions sometimes words karta vadhu kahi jaay che. And haan, hu notice karu chu badhu!',
   },
   {
-    id: 11,
-    label: 'Little things you do',
-    note: 'Write one small thing she does that stays with you.',
+    reasonId: 'reason-011',
+    number: 11,
+    emoji: '☕',
+    title: 'Our First Meeting',
+    description:
+      'Tea Post ni e first meeting thi laine aaj sudhi ni journey mara mate special che. Kon jaantu hatu ke ek normal meeting aatli special bani jashe!',
   },
   {
-    id: 12,
-    label: 'Being beside you',
-    note: 'Write what changes when she is next to you.',
+    reasonId: 'reason-012',
+    number: 12,
+    emoji: '💃',
+    title: 'Our Garba Memories',
+    description:
+      'Apda Garba na e moments yaad aave tyare aaje pan smile aavi jaay che. Those little memories will always be special.',
   },
   {
-    id: 13,
-    label: 'Your dreams',
-    note: 'Write about a dream of hers you want to stand beside.',
+    reasonId: 'reason-013',
+    number: 13,
+    emoji: '❤️',
+    title: 'You Chose Us',
+    description:
+      'Badha ups and downs vachche pan apde apdi relationship ne choose kari. And I am really happy that we kept choosing each other.',
   },
   {
-    id: 14,
-    label: 'The way you look at me',
-    note: 'Write what that look feels like.',
+    reasonId: 'reason-014',
+    number: 14,
+    emoji: '🥰',
+    title: 'Your Honesty',
+    description:
+      'Tu je feel kare che e express kare che. Sometimes badhu agree na pan kariye, but I love that we can be honest with each other.',
   },
   {
-    id: 15,
-    label: 'Tea Post',
-    note: 'Write what you want to remember from 12 October 2023.',
+    reasonId: 'reason-015',
+    number: 15,
+    emoji: '🎀',
+    title: 'Your Little Efforts',
+    description:
+      "Tara efforts sometimes nana hoy, pan mara mate eno meaning ghano moto hoy che. It's the little things that make me feel loved.",
   },
   {
-    id: 16,
-    label: 'The day I proposed',
-    note: 'Write what 14 February 2024 still means to you.',
+    reasonId: 'reason-016',
+    number: 16,
+    emoji: '📱',
+    title: 'You Make Me Smile',
+    description:
+      "Ketlik vaar bas taro message aave etle pan mood saro thai jaay che. And sometimes I keep checking my phone just to see if you've texted!",
   },
   {
-    id: 17,
-    label: 'Our families',
-    note: 'Write what 31 August 2025 meant, in your words.',
+    reasonId: 'reason-017',
+    number: 17,
+    emoji: '🌸',
+    title: 'Your Flexibility',
+    description:
+      'Tu situations pramane potane adapt kari shake che. Life ma badhu perfect na hoy, pan tari sathe things feel manageable.',
   },
   {
-    id: 18,
-    label: 'Our engagement',
-    note: 'Write about 14 February 2026.',
+    reasonId: 'reason-018',
+    number: 18,
+    emoji: '📸',
+    title: 'Our Memories',
+    description:
+      'Apdi pase ketli badhi memories che, ane mane haju ghani badhi banavvi che. I hope apde aavi j rite lifetime memories banavta rahiye.',
   },
   {
-    id: 19,
-    label: 'Adventures',
-    note: 'Write a day or a place you want to keep.',
+    reasonId: 'reason-019',
+    number: 19,
+    emoji: '🌟',
+    title: 'You Inspire Me',
+    description:
+      'Tane joi ne mane pan better person banvanu man thay che. I want us to grow together and make each other better.',
   },
   {
-    id: 20,
-    label: 'How safe this feels',
-    note: 'Write how she makes you feel, without inventing a scene.',
+    reasonId: 'reason-020',
+    number: 20,
+    emoji: '🧸',
+    title: 'Our Little World',
+    description:
+      'Apdi banne ni alag j duniya che, and I love being a part of it. Aapdi nani nani habits, jokes ane routines badhu j special che.',
   },
   {
-    id: 21,
-    label: 'Conversations',
-    note: 'Write about the talks you do not want to end.',
+    reasonId: 'reason-021',
+    number: 21,
+    emoji: '🫂',
+    title: 'Your Presence',
+    description:
+      'Tu sathe hoy tyare normal moments pan special lage che. Sometimes doing absolutely nothing together is my favourite thing.',
   },
   {
-    id: 22,
-    label: 'Home',
-    note: 'Write what home has come to mean with her.',
+    reasonId: 'reason-022',
+    number: 22,
+    emoji: '💗',
+    title: 'The Way You Love',
+    description:
+      'Tari potani ek alag rite love express karvani style che. And I have learned to appreciate all those little ways.',
   },
   {
-    id: 23,
-    label: 'The life ahead',
-    note: 'Write the future you hope to build together.',
+    reasonId: 'reason-023',
+    number: 23,
+    emoji: '💍',
+    title: 'Our Future',
+    description:
+      'Tari sathe future ni vaat karvi ane plans banavva mane genuinely exciting lage che. I look forward to all the little and big things waiting for us.',
   },
   {
-    id: 24,
-    label: 'Simply you',
-    note: 'Write the reason that is just her, being her.',
+    reasonId: 'reason-024',
+    number: 24,
+    emoji: '❤️',
+    title: "Simply Because It's YOU",
+    description:
+      "Aa badha reasons karta pan vadhu, mane tu game che because you're YOU. Tare perfect hovani jarur nathi. Mane bas tu joie che, always.",
+    special: true,
   },
 ]

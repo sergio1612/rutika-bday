@@ -1,6 +1,7 @@
 import type { GiftDefinition, GiftStatus, LockReason, PinOutcome } from '../data/types'
 import type { GiftHuntState } from '../state/giftInitialState'
 import { parseSchedule } from './dateUtils'
+import { isCompletePin } from './pinInput'
 
 export function enabledGifts(gifts: GiftDefinition[]): GiftDefinition[] {
   return gifts.filter((gift) => gift.enabled).sort((a, b) => a.order - b.order || a.giftId.localeCompare(b.giftId))
@@ -62,14 +63,13 @@ export function evaluatePin(
   pin: string,
   nowMs: number,
 ): PinOutcome {
-  const trimmed = pin.trim()
-  if (!trimmed) return 'empty'
+  if (!isCompletePin(pin)) return 'empty'
   const gift = gifts.find((item) => item.giftId === giftId)
   if (!gift?.enabled || !gift.requiresPin || !gift.pinConfig) return 'unavailable'
   const completed = new Set(state.completedGiftIds)
   if (statusFor(gift, gifts, completed, nowMs) !== 'available') return 'unavailable'
   const used = state.attemptsByPinId[gift.pinConfig.pinId] ?? 0
   if (used >= gift.pinConfig.maxAttempts) return 'locked-out'
-  if (trimmed === gift.pinConfig.value) return 'success'
+  if (pin === gift.pinConfig.value) return 'success'
   return 'incorrect'
 }

@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
+import { birthdayConfig } from '../config/birthdayConfig'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 
 const SECTIONS = [
   { id: 'birthday', label: 'Birthday' },
-  { id: 'moments', label: 'Moments' },
-  { id: 'story', label: 'Story' },
+  { id: 'years', label: 'Years' },
+  ...(birthdayConfig.showMoments ? [{ id: 'moments', label: 'Moments' }] : []),
   { id: 'reasons', label: 'Reasons' },
   { id: 'letter', label: 'Letter' },
-  { id: 'finale', label: 'Gift' },
+  { id: 'gift', label: 'Gift ♡' },
 ]
 
 export function SectionProgress({ onOpenGifts }: { onOpenGifts: () => void }) {
@@ -88,7 +89,7 @@ export function SectionProgress({ onOpenGifts }: { onOpenGifts: () => void }) {
             onClick={onOpenGifts}
             className="flex h-9 shrink-0 items-center justify-center rounded-full px-2 text-[0.58rem] uppercase tracking-[0.08em] text-rose-deep transition hover:bg-blush/60 sm:px-3 sm:text-[0.62rem] sm:tracking-[0.14em]"
           >
-            Gifts
+            Gifts ♡
           </button>
         </div>
       </nav>

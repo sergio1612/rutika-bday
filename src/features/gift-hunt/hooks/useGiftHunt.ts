@@ -1,20 +1,21 @@
-import { useEffect, useMemo, useReducer, useState } from 'react'
+import { createContext, createElement, useContext, useEffect, useMemo, useReducer, useState, type ReactNode } from 'react'
 import { giftConfig } from '../data/giftData'
 import { huntLetter } from '../data/letterData'
 import type { GiftDefinition, LockReason, PinOutcome } from '../data/types'
 import { giftReducer } from '../state/giftReducer'
 import { effectiveNow, setDevClock, simulatedClockActive } from '../utils/dateUtils'
 import { warnIfGiftConfigInvalid } from '../utils/configValidator'
-import { evaluatePin, finaleUnlocked, lockReasonFor, statusFor } from '../utils/giftRules'
+import { evaluatePin, finaleUnlocked, lockReasonFor, sequentialGifts, statusFor } from '../utils/giftRules'
 import { clearProgress, loadProgress, saveProgress } from '../utils/storageUtils'
 
 export type HuntGiftView = {
   gift: GiftDefinition
   status: 'locked' | 'available' | 'completed'
   lockReason: LockReason
+  isOpeningClue: boolean
 }
 
-export function useGiftHunt() {
+function useGiftHuntState() {
   const gifts = giftConfig.gifts
   const [state, dispatch] = useReducer(giftReducer, undefined, loadProgress)
   const [now, setNow] = useState(() => effectiveNow())
@@ -43,6 +44,8 @@ export function useGiftHunt() {
 
   const completed = useMemo(() => new Set(state.completedGiftIds), [state.completedGiftIds])
 
+  const openingClueId = sequentialGifts(gifts)[0]?.giftId ?? null
+
   const views = useMemo<HuntGiftView[]>(
     () =>
       gifts
@@ -52,9 +55,12 @@ export function useGiftHunt() {
           gift,
           status: statusFor(gift, gifts, completed, now),
           lockReason: lockReasonFor(gift, gifts, completed, now),
+          isOpeningClue: gift.giftId === openingClueId,
         })),
-    [completed, gifts, now],
+    [completed, gifts, now, openingClueId],
   )
+
+  const gateCleared = views.find((view) => view.isOpeningClue)?.status === 'completed'
 
   const letterReady = finaleUnlocked(gifts, completed)
 
@@ -68,6 +74,7 @@ export function useGiftHunt() {
 
   return {
     intro: giftConfig.intro,
+    gateCleared,
     letter: huntLetter,
     started: state.started,
     now,
@@ -94,4 +101,19 @@ export function useGiftHunt() {
       setNow(effectiveNow())
     },
   }
+}
+
+type GiftHuntValue = ReturnType<typeof useGiftHuntState>
+
+const GiftHuntContext = createContext<GiftHuntValue | null>(null)
+
+export function GiftHuntProvider({ children }: { children: ReactNode }) {
+  const value = useGiftHuntState()
+  return createElement(GiftHuntContext.Provider, { value }, children)
+}
+
+export function useGiftHunt() {
+  const value = useContext(GiftHuntContext)
+  if (!value) throw new Error('useGiftHunt must be used within GiftHuntProvider')
+  return value
 }

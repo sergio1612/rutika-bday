@@ -1,7 +1,8 @@
 import { useCallback, useRef, useState } from 'react'
 
-/** Drop the real song here, then leave this path as-is: public/music/birthday-song.mp3 */
-const SRC = '/music/birthday-song.mp3'
+/** Place the song at public/audio/birthday-music.mp3. A missing file only disables the button. */
+const SRC = '/audio/birthday-music.mp3'
+const VOLUME = 0.28
 
 export function useMusic() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -38,7 +39,7 @@ export function useMusic() {
       const step = (now: number) => {
         if (audio.paused) return
         const t = Math.min(1, (now - start) / 1400)
-        audio.volume = t * 0.9
+        audio.volume = t * VOLUME
         if (t < 1) fadeRef.current = requestAnimationFrame(step)
       }
       audio.volume = 0
@@ -51,7 +52,7 @@ export function useMusic() {
     if (missingRef.current) return
     const audio = getAudio()
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    audio.volume = reduced ? 0.9 : 0
+    audio.volume = reduced ? VOLUME : 0
     audio
       .play()
       .then(() => {

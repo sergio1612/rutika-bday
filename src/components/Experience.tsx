@@ -1,6 +1,10 @@
+import { birthdayConfig } from '../config/birthdayConfig'
+import { BirthdayGallery } from '../features/birthday-gallery/components/BirthdayGallery'
+import { FirstGiftGate } from '../features/gift-hunt/components/FirstGiftGate'
+import { useGiftHunt } from '../features/gift-hunt/hooks/useGiftHunt'
+import { useReducedMotion } from '../hooks/useReducedMotion'
 import { BirthdayHero } from './BirthdayHero'
 import { CursorGlow } from './CursorGlow'
-import { FinalSurprise } from './FinalSurprise'
 import { FloatingHearts } from './FloatingHearts'
 import { LoveLetter } from './LoveLetter'
 import { LoveReasons } from './LoveReasons'
@@ -8,21 +12,29 @@ import { MusicPlayer } from './MusicPlayer'
 import { PhotoGallery } from './PhotoGallery'
 import { Portal } from './Portal'
 import { SectionProgress } from './SectionProgress'
-import { Timeline } from './Timeline'
 
 export function Experience({
-  onReplay,
   onOpenGifts,
   playing,
   missing,
   onToggleMusic,
 }: {
-  onReplay: () => void
   onOpenGifts: () => void
   playing: boolean
   missing: boolean
   onToggleMusic: () => void
 }) {
+  const hunt = useGiftHunt()
+  const reduced = useReducedMotion()
+  const openHunt = () => {
+    if (!hunt.gateCleared) {
+      document.getElementById('gift')?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
+      return
+    }
+    hunt.start()
+    onOpenGifts()
+  }
+
   return (
     <div
       className="relative min-h-svh text-ink"
@@ -34,17 +46,17 @@ export function Experience({
       <Portal>
         <div className="grain pointer-events-none fixed inset-0 z-[1]" aria-hidden="true" />
         <FloatingHearts />
-        <SectionProgress onOpenGifts={onOpenGifts} />
+        <SectionProgress onOpenGifts={openHunt} />
         <MusicPlayer playing={playing} missing={missing} onToggle={onToggleMusic} />
         <CursorGlow />
       </Portal>
       <main>
         <BirthdayHero />
-        <PhotoGallery />
-        <Timeline />
+        <BirthdayGallery />
+        {birthdayConfig.showMoments ? <PhotoGallery /> : null}
         <LoveReasons />
         <LoveLetter />
-        <FinalSurprise onReplay={onReplay} />
+        <FirstGiftGate onContinue={openHunt} />
       </main>
     </div>
   )

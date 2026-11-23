@@ -10,12 +10,12 @@ export function HuntIntroduction({ intro, onBegin }: { intro: GiftHuntIntro; onB
       </div>
       <h1 className="mt-8 font-serif text-5xl italic leading-tight text-ink md:text-6xl">{intro.title}</h1>
       <Ornament />
-      <p className="mx-auto mt-6 max-w-md text-base font-light leading-relaxed text-ink-soft md:text-lg">
+      <p className="mx-auto mt-6 max-w-md whitespace-pre-line text-base font-light leading-relaxed text-ink-soft md:text-lg">
         {intro.subtitle}
       </p>
       <ol className="mx-auto mt-8 max-w-sm space-y-2 text-left text-sm font-light text-ink-soft">
-        <li>1. Read the clue when its time arrives.</li>
-        <li>2. Find the little gift, and the code kept with it.</li>
+        <li>1. The first code is entered in Gift.</li>
+        <li>2. Each note you find leads you to the next.</li>
         <li>3. The next surprise waits for its own hour, even if you are early.</li>
       </ol>
       <button

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion'
 import { Experience } from './components/Experience'
 import { GiftHunt } from './features/gift-hunt/components/GiftHunt'
+import { GiftHuntProvider } from './features/gift-hunt/hooks/useGiftHunt'
 import { IntroScreen } from './components/IntroScreen'
 import { Loader } from './components/Loader'
 import { useMusic } from './hooks/useMusic'
@@ -51,11 +52,19 @@ export default function App() {
               exit={{ opacity: 0 }}
               transition={{ duration: reduced ? 0 : 0.8 }}
             >
+              <GiftHuntProvider>
               {huntOpen ? (
                 <GiftHunt
+                  onReplay={replay}
                   onBack={() => {
                     setHuntOpen(false)
                     window.scrollTo(0, 0)
+                  }}
+                  onNeedGate={() => {
+                    setHuntOpen(false)
+                    window.setTimeout(() => {
+                      document.getElementById('gift')?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' })
+                    }, 50)
                   }}
                   playing={music.playing}
                   missing={music.missing}
@@ -63,7 +72,6 @@ export default function App() {
                 />
               ) : (
                 <Experience
-                  onReplay={replay}
                   onOpenGifts={() => {
                     setHuntOpen(true)
                     window.scrollTo(0, 0)
@@ -73,6 +81,7 @@ export default function App() {
                   onToggleMusic={music.toggle}
                 />
               )}
+              </GiftHuntProvider>
             </motion.div>
           ) : (
             <motion.div

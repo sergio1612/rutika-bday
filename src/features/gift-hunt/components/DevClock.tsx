@@ -2,9 +2,8 @@ import { formatInKolkata } from '../utils/dateUtils'
 
 const PRESETS = [
   { label: 'Real time', iso: null },
-  { label: 'Before the first', iso: '2026-11-24T08:00:00+05:30' },
-  { label: 'First gift', iso: '2026-11-24T09:05:00+05:30' },
-  { label: 'All hours open', iso: '2026-11-24T21:30:00+05:30' },
+  { label: 'Before 7 pm', iso: '2026-11-24T18:00:00+05:30' },
+  { label: '7 pm, hunt open', iso: '2026-11-24T19:00:00+05:30' },
 ] as const
 
 export function DevClock({
@@ -12,11 +11,13 @@ export function DevClock({
   active,
   onPreview,
   onReset,
+  onPrint,
 }: {
   now: number
   active: boolean
   onPreview: (iso: string | null) => void
   onReset: () => void
+  onPrint?: () => void
 }) {
   if (!import.meta.env.DEV) return null
 
@@ -38,6 +39,11 @@ export function DevClock({
         <button type="button" onClick={onReset} className="rounded-full px-2 py-1 text-left text-[0.68rem] text-gold-bright">
           Clear hunt progress
         </button>
+        {onPrint ? (
+          <button type="button" onClick={onPrint} className="rounded-full px-2 py-1 text-left text-[0.68rem] text-gold-bright">
+            Print clue cards
+          </button>
+        ) : null}
       </div>
     </aside>
   )

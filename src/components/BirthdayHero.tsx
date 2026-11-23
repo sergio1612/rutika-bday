@@ -1,37 +1,12 @@
-import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { birthdayLabel, getBirthdayPhase } from '../data/site'
 import { Confetti } from './Confetti'
 import { Ornament } from './Ornament'
 import { Petals } from './Petals'
 
-function Unit({ value, label }: { value: number; label: string }) {
-  return (
-    <div className="min-w-14 px-1.5 sm:min-w-[4.25rem] sm:px-2 md:min-w-20">
-      <div className="font-sans text-3xl font-light tabular-nums tracking-wide text-ink md:text-4xl">
-        {String(value).padStart(2, '0')}
-      </div>
-      <div className="mt-1 text-[0.62rem] uppercase tracking-[0.2em] text-gold">{label}</div>
-    </div>
-  )
-}
-
 export function BirthdayHero() {
-  const [now, setNow] = useState(() => new Date())
-  const phase = getBirthdayPhase(now)
+  const phase = getBirthdayPhase()
   const label = birthdayLabel()
-
-  useEffect(() => {
-    const id = window.setInterval(() => setNow(new Date()), 1000)
-    return () => window.clearInterval(id)
-  }, [])
-
-  const quiet =
-    phase.phase === 'today'
-      ? `Today is ${label}.`
-      : phase.phase === 'after'
-        ? `Celebrating you. Your birthday is ${label}.`
-        : `${phase.days} days until ${label}.`
 
   return (
     <section
@@ -79,19 +54,7 @@ export function BirthdayHero() {
           To the girl who makes my world a little more beautiful every single day.
         </motion.p>
 
-        <p className="sr-only">{quiet}</p>
-
-        {phase.phase === 'before' ? (
-          <div className="mt-12" aria-hidden="true">
-            <p className="text-[0.68rem] uppercase tracking-[0.28em] text-gold">Until your day</p>
-            <div className="mt-4 flex items-start justify-center divide-x divide-gold/30">
-              <Unit value={phase.days} label="Days" />
-              <Unit value={phase.hours} label="Hours" />
-              <Unit value={phase.minutes} label="Minutes" />
-              <Unit value={phase.seconds} label="Seconds" />
-            </div>
-          </div>
-        ) : (
+        {phase.phase === 'before' ? null : (
           <p className="mt-12 font-serif text-3xl italic text-rose-deep md:text-4xl">
             {phase.phase === 'today' ? 'Today is yours' : 'And every day after'}
           </p>
